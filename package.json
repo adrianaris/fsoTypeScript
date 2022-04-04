@@ -1,0 +1,25 @@
+{
+  "name": "typescriptfso",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "ts-node": "ts-node",
+    "multiplier":"ts-node multiplier.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adrianaris/fsoTypeScript.git"
+  },
+  "author": "Adrian Serbanescu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/adrianaris/fsoTypeScript/issues"
+  },
+  "homepage": "https://github.com/adrianaris/fsoTypeScript#readme",
+  "devDependencies": {
+    "ts-node": "^10.7.0",
+    "typescript": "^4.6.3"
+  }
+}
