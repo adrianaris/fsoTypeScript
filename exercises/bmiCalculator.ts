@@ -1,7 +1,7 @@
 interface PatientDescriptors {
   height: number;
   weight: number;
-};
+}
 
 const argsParser = (args: Array<string>): PatientDescriptors => {
   if (args.length < 4 || args.length > 4) throw new Error('The script must be called with exactly 2 arguments');
@@ -9,10 +9,10 @@ const argsParser = (args: Array<string>): PatientDescriptors => {
     return {
       height: Number(args[2]),
       weight: Number(args[3])
-    }
+    };
   } else {
     throw new Error('Provided values were not numbers!');
-  };
+  }
 };
 
 const calculateBmi = (a: number, b: number): string => {
@@ -31,10 +31,10 @@ const calculateBmi = (a: number, b: number): string => {
   } else if (calculator() > 18.4 && calculator() < 25.0) {
     return 'Normal (healthy weight)';
   } else if (calculator() > 24.9 && calculator() < 30.0) {
-    return 'Overweight (Pre-obese)'
+    return 'Overweight (Pre-obese)';
   } else if (calculator() > 29.9) {
-    return 'OBESE'
-  };
+    return 'OBESE';
+  }
 };
 
 try {
@@ -44,6 +44,6 @@ try {
   let errorMessage = 'Something bad happened.';
   if (error instanceof Error) {
     errorMessage += ' Error: ' + error.message;
-  };
+  }
   console.log(errorMessage);
-};
+}

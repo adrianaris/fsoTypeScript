@@ -14,12 +14,12 @@ const calculateBmi = (a: number, b: number): string => {
   } else if (calculator() > 18.4 && calculator() < 25.0) {
     return 'Normal (healthy weight)';
   } else if (calculator() > 24.9 && calculator() < 30.0) {
-    return 'Overweight (Pre-obese)'
+    return 'Overweight (Pre-obese)';
   } else if (calculator() > 29.9) {
-    return 'OBESE'
+    return 'OBESE';
   } else {
-    return 'IDK what I\'m doing'
-  };
+    return 'IDK what I\'m doing';
+  }
 };
 
-export default calculateBmi
+export default calculateBmi;
