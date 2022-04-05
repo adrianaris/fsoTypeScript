@@ -33,7 +33,7 @@ const calculateExercises = (workDone: Array<number>, targetAverage: number): How
   const success = average >= targetAverage ? true : false;
 
   const ratingCalc = () => {
-    if (average < targetAverage * 5/10) {
+    if (average <= targetAverage * 5/10) {
       return {
         rating: 1,
         ratingDescription: 'You are totaly lazy'
@@ -62,11 +62,12 @@ const calculateExercises = (workDone: Array<number>, targetAverage: number): How
 };
 
 try {
-  const { targetAverage, workDone } = argsParser(process.argv)
+  const { targetAverage, workDone } = argsParser(process.argv);
   console.log(calculateExercises(workDone, targetAverage));
 } catch (error: unknown) {
-  let errorMessage = 'Something bad happened.'
+  let errorMessage = 'Something bad happened.';
   if (error instanceof Error) {
-    errorMessage += ' Error: ' + error.message
-  }
+    errorMessage += ' Error: ' + error.message;
+  };
+  console.log(errorMessage);
 }
