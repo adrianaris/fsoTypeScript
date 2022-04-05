@@ -8,6 +8,24 @@ interface HowLazyAreYou {
   average: number;
 };
 
+interface WorkPrescription {
+  targetAverage: number;
+  workDone: Array<number>;
+};
+
+const argsParser = (args: Array<string>): WorkPrescription => {
+  if (args.length < 4) throw new Error('Not enaugh arguments');
+  args.shift();
+  args.shift();
+  let numberArgs = args.map(e => Number(e));
+  if (numberArgs.includes(NaN)) throw new Error('Provided values were not numbers!')
+
+  return {
+    targetAverage: numberArgs.shift(),
+    workDone: numberArgs
+  }
+}
+
 const calculateExercises = (workDone: Array<number>, targetAverage: number): HowLazyAreYou => {
   const periodLength = workDone.length;
   const trainingDays = workDone.reduce((p, c) => c > 0 ? p + 1 : p + 0, 0);
@@ -43,6 +61,12 @@ const calculateExercises = (workDone: Array<number>, targetAverage: number): How
   }
 };
 
-let work = [3, 0, 2, 4.5, 0, 3, 1];
-
-console.log(calculateExercises(work, 2));
+try {
+  const { targetAverage, workDone } = argsParser(process.argv)
+  console.log(calculateExercises(workDone, targetAverage));
+} catch (error: unknown) {
+  let errorMessage = 'Something bad happened.'
+  if (error instanceof Error) {
+    errorMessage += ' Error: ' + error.message
+  }
+}
