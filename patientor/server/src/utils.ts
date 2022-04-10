@@ -3,11 +3,11 @@ import { Gender } from './types';
 
 const isString = (text: unknown): text is string => {
   return typeof text === 'string' || text instanceof String;
-}
+};
 
 const parseString = (text: unknown): string => {
   if (!text || !isString(text)) {
-    throw new Error('Incorrect or missing field')
+    throw new Error('Incorrect or missing field');
   }
 
   return text;
@@ -37,7 +37,7 @@ const parseGender = (gender: unknown): Gender => {
   }
 
   return gender;
-}
+};
 
 type Fields = {
   name: unknown,
@@ -45,7 +45,7 @@ type Fields = {
   ssn: unknown,
   gender: unknown,
   occupation: unknown,
-}
+};
 const toNewPatient = (
     { name, dateOfBirth, ssn, gender, occupation }: Fields
   ): NewPatient => {
@@ -58,6 +58,6 @@ const toNewPatient = (
   };
 
   return newPatient;
-}
+};
 
-export default toNewPatient
+export default toNewPatient;
