@@ -2,6 +2,29 @@ import Content from './components/Content';
 import Header from './components/Header';
 import Total from './components/Total';
 
+interface CoursePartBase {
+  name: string;
+  exerciseCount: number;
+}
+
+interface CoursePartOne extends CoursePartBase {
+  name: "Fundamentals";
+  description: string;
+}
+
+interface CoursePartTwo extends CoursePartBase {
+  name: "Using props to pass data";
+  groupProjectCount: number;
+}
+
+interface CoursePartThree extends CoursePartBase {
+  name: "Deeper type usage";
+  description: string;
+  exerciseSubmissionLink: string;
+}
+
+type CoursePart = CoursePartOne | CoursePartTwo | CoursePartThree;
+
 const App = () => {
   const courseName = "Half Stack application development";
   const courseParts = [
