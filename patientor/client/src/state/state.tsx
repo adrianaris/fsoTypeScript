@@ -3,18 +3,19 @@ import { Patient } from "../types";
 
 import { Action } from "./reducer";
 
-export type State = {
-  patients: { [id: string]: Patient };
-};
+export interface State {
+  patients: Map<string, Patient>;
+}
 
 const initialState: State = {
-  patients: {}
+  patients: new Map()
 };
 
 export const StateContext = createContext<[State, React.Dispatch<Action>]>([
   initialState,
   () => initialState
 ]);
+console.log(StateContext);
 
 type StateProviderProps = {
   reducer: React.Reducer<State, Action>;
