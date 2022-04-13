@@ -1,5 +1,5 @@
 import { NewPatient } from './types';
-import { Gender } from './types';
+import { Gender, Entry } from './types';
 
 const isString = (text: unknown): text is string => {
   return typeof text === 'string' || text instanceof String;
@@ -39,12 +39,30 @@ const parseGender = (gender: unknown): Gender => {
   return gender;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const isEntry = (value: any): value is Entry => {
+  if (!value || !isString(value)) {
+    return false
+  }
+    return true
+}
+
+const parseEntries = (entries: Array<unknown>): Entry[] => {
+  if(!entries) {
+    throw new Error('Missing entry');
+  } else if (entries.map(e => isEntry(e)).includes(false)) {
+    throw new Error('Incorrent entries');
+  }
+
+  return entries;
+};
+
 type Fields = {
   name: unknown,
   dateOfBirth: unknown,
   ssn: unknown,
   gender: unknown,
-  occupation: unknown,
+  occupation: unknown
 };
 const toNewPatient = (
     { name, dateOfBirth, ssn, gender, occupation }: Fields
