@@ -41,13 +41,13 @@ const parseGender = (gender: unknown): Gender => {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const isEntry = (value: any): value is Entry => {
-  if (!value || !isString(value)) {
+  if (value && !isString(value)) {
     return false
   }
     return true
 }
 
-const parseEntries = (entries: Array<unknown>): Entry[] => {
+const parseEntries = (entries: unknown): Entry[] => {
   if(!entries) {
     throw new Error('Missing entry');
   } else if (entries.map(e => isEntry(e)).includes(false)) {
@@ -62,17 +62,19 @@ type Fields = {
   dateOfBirth: unknown,
   ssn: unknown,
   gender: unknown,
-  occupation: unknown
+  occupation: unknown,
+  entries: unknown
 };
 const toNewPatient = (
-    { name, dateOfBirth, ssn, gender, occupation }: Fields
+    { name, dateOfBirth, ssn, gender, occupation, entries }: Fields
   ): NewPatient => {
   const newPatient: NewPatient = {
     name: parseString(name),
     dateOfBirth: parseDate(dateOfBirth),
     ssn: parseString(ssn),
     gender: parseGender(gender),
-    occupation: parseString(occupation)
+    occupation: parseString(occupation),
+    entries: parseEntries(entries)
   };
 
   return newPatient;

@@ -11,6 +11,7 @@ export interface Diagnose {
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface Entry {
+  entry: string
 }
 
 export interface Patient {
@@ -23,6 +24,6 @@ export interface Patient {
   entries: Entry[]
 }
 
-export type NonSensitivePatientData = Omit<Patient, 'ssn'>;
+export type NonSensitivePatientData = Omit<Patient, 'ssn' | 'entries'>;
 export type NewPatient = Omit<Patient, 'id'>;
 export type PublicPatient = Omit<Patient, 'ssn' | 'entries'>
