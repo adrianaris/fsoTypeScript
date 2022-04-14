@@ -15,7 +15,6 @@ export const StateContext = createContext<[State, React.Dispatch<Action>]>([
   initialState,
   () => initialState
 ]);
-console.log(StateContext);
 
 type StateProviderProps = {
   reducer: React.Reducer<State, Action>;

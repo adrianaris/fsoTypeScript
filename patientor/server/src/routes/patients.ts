@@ -10,8 +10,6 @@ router.get('/', (_req, res) => {
 
 router.get('/:id', (req, res) => {
   const id: string = req.params.id
-  const p = patientsService.getPublicPatient(id)
-  console.log(p)
   res.send(patientsService.getPublicPatient(id))
 })
 
