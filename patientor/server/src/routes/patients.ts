@@ -8,6 +8,13 @@ router.get('/', (_req, res) => {
   res.send(patientsService.getNonSensitivePatientData());
 });
 
+router.get('/:id', (req, res) => {
+  const id: string = req.params.id
+  const p = patientsService.getPublicPatient(id)
+  console.log(p)
+  res.send(patientsService.getPublicPatient(id))
+})
+
 router.post('/', (req, res) => {
   try {
     const newPatient = toNewPatient(req.body);
