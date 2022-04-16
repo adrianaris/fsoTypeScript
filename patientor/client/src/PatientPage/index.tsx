@@ -6,6 +6,7 @@ import axios from "axios";
 import { apiBaseUrl } from "../constants";
 import FemaleIcon from "@mui/icons-material/Female";
 import MaleIcon from "@mui/icons-material/Male";
+import EntryComponent from "../components/Entry";
 
 const PatientPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -40,16 +41,8 @@ const PatientPage = () => {
         <h4>entries</h4>
           {patient.entries.length > 0 &&
             patient.entries.map(
-              entry => (
-                <div key={entry.id}>{entry.date} {entry.description} <br />
-                <ul>
-                  {entry.diagnosisCodes && 
-                      entry.diagnosisCodes.map(code => 
-                      <li key={code}>{code} {diagnoses[code].name}</li>
-                      )
-                  }
-                </ul></div>
-        ))}
+              entry => <EntryComponent key={entry.id} entry={entry} />
+        )}
       </div>
     );
   }
