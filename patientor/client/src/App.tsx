@@ -23,6 +23,7 @@ const App = () => {
           `${apiBaseUrl}/patients`
         );
         dispatch({ type: "SET_PATIENT_LIST", payload: patientListFromApi });
+        console.log(patientListFromApi);
       } catch (e) {
         console.error(e);
       }
