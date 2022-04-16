@@ -9,10 +9,15 @@ export interface Diagnose {
   latin?: string
 }
 
-interface Discharge {
-  date: string;
-  criteria: string;
-}
+type Discharge = {
+  date: string,
+  criteria: string
+};
+
+type SickLeave = {
+  startDate: string,
+  endDate: string
+};
 
 interface BaseEntry {
   id: string;
@@ -37,6 +42,7 @@ interface HealthCheckEntry extends BaseEntry {
 interface OccupationalHealthcareEntry extends BaseEntry {
   type: "OccupationalHealthcare";
   employerName: string;
+  sickLeave?: SickLeave;
 }
 
 interface HospitalEntry extends BaseEntry {
