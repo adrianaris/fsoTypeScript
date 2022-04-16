@@ -9,7 +9,8 @@ import MaleIcon from "@mui/icons-material/Male";
 
 const PatientPage = () => {
   const { id } = useParams<{ id: string }>();
-  const [{ patients }, dispatch] = useStateValue();
+  const [{ patients, diagnoses }, dispatch] = useStateValue();
+  console.log(diagnoses);
   if (id && typeof id === "string" && patients[id]) {
     let patient: Patient = patients[id];
     if (patient["ssn"] === undefined) {
@@ -44,7 +45,7 @@ const PatientPage = () => {
                 <ul>
                   {entry.diagnosisCodes && 
                       entry.diagnosisCodes.map(code => 
-                      <li key={code}>{code}</li>
+                      <li key={code}>{code} {diagnoses[code].name}</li>
                       )
                   }
                 </ul></div>
