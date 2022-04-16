@@ -1,6 +1,6 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import { useStateValue } from "../state";
+import { useStateValue, addPatient } from "../state";
 import { Patient } from "../types";
 import axios from "axios";
 import { apiBaseUrl } from "../constants";
@@ -18,7 +18,7 @@ const PatientPage = () => {
           const { data: fetchedPatient }= await axios.get<Patient>(
             `${apiBaseUrl}/patients/${id}`
           );
-          dispatch({ type: "ADD_PATIENT", payload: fetchedPatient });
+          dispatch(addPatient(fetchedPatient));
           patient = fetchedPatient;
         } catch (e) {
           console.log(e);
