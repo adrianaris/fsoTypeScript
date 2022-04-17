@@ -3,7 +3,7 @@ import {
   Patient,
   NewPatient,
   PublicPatient,
-  Entry
+  EntryWithoutId
 } from '../types';
 import patients from '../data/patients';
 import { v1 as uuid } from 'uuid';
@@ -32,12 +32,16 @@ const addPatient = (patient: NewPatient): Patient => {
 const getPublicPatient = (id: string): PublicPatient | undefined => {
   return patients.find(p => p.id === id);
 };
-const addEntry = (id: string, entry: Entry): Patient | undefined => {
+
+const addEntry = (id: string, entry: EntryWithoutId): Patient | undefined => {
   const patient = patients.find(p => p.id === id)
   if (!patient) return;
+  const newEntry = {
+    ...entry,
+    id: uuid()
+  };
 
-  entry.id = uuid();
-  patient.entries.push(entry);
+  patient.entries.push(newEntry);
   const patientIndex = patients.findIndex(p => p.id === id);
   patients.splice(patientIndex, 1);
   patients.push(patient);
