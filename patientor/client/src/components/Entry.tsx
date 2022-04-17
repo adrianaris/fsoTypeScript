@@ -27,14 +27,14 @@ const HospitalEntry: React.FC<{ entry: Entry; Icon: any }> = ({ entry, Icon }) =
   );
 };
 
-const OccupationalHealthcareEntry: React.FC<{ entry: Extract<Entry, {type: "OccupationalHealthcare"}>; Icon: any }> = ({ entry, Icon}) => {
+const OccupationalHealthcareEntry: React.FC<{ entry: Extract<Entry, {type:  "OccupationalHealthcare"}>; Icon: any }> = ({ entry, Icon}) => {
    return (
     <Layout>
       <div>{entry.date} <Icon /><i> {entry.employerName}</i></div>
       <div><i>{entry.description}</i></div>
       <div>diagnose by {entry.specialist}</div>
     </Layout>
-  ); 
+  );
 };
 
 const HealthCheckEntry: React.FC<{ entry: Extract<Entry, { type: "HealthCheck"}>; Icon: any }> = ({ entry, Icon}) => {
@@ -55,6 +55,7 @@ const HealthCheckEntry: React.FC<{ entry: Extract<Entry, { type: "HealthCheck"}>
     default:
       return null;
   }
+
    return (
     <Layout>
       <div>{entry.date} <Icon /></div>
@@ -64,7 +65,7 @@ const HealthCheckEntry: React.FC<{ entry: Extract<Entry, { type: "HealthCheck"}>
       }
       <div>diagnose by {entry.specialist}</div>
     </Layout>
-  ); 
+  );
 };
 
 const EntryComponent = ({ entry }: { entry: Entry }) => {
@@ -73,7 +74,7 @@ const EntryComponent = ({ entry }: { entry: Entry }) => {
       `Unhandled discriminated union member ${JSON.stringify(value)}`
     );
   };
-  
+
   switch (entry.type) {
     case "Hospital":
       return <HospitalEntry entry={entry} Icon={MedicalServicesIcon} />;

@@ -65,4 +65,3 @@ export interface Patient {
   dateOfBirth?: string;
   entries: Entry[];
 }
-

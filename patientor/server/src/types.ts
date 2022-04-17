@@ -1,7 +1,7 @@
 export enum Gender {
-  Male = 'male',
-  Female = 'female',
-  Other = 'other'
+  Male = "male",
+  Female = "female",
+  Other = "other"
 }
 
 export interface Diagnose {
@@ -10,12 +10,12 @@ export interface Diagnose {
   latin?: string
 }
 
-type Discharge = {
+export type Discharge = {
   date: string,
   criteria: string
 };
 
-type SickLeave = {
+export type SickLeave = {
   startDate: string,
   endDate: string
 };
@@ -25,7 +25,7 @@ interface BaseEntry {
   description: string;
   date: string;
   specialist: string;
-  diagnosisCodes?: Array<Diagnose['code']>;
+  diagnosisCodes?: Array<Diagnose["code"]>;
 }
 
 export enum HealthCheckRating {
@@ -57,7 +57,7 @@ export type Entry =
   | HealthCheckEntry;
 
 type UnionOmit<T, K extends string | number | symbol> = T extends unknown ? Omit<T, K> : never;
-export type EntryWithoutId = UnionOmit<Entry, 'id'>;
+export type EntryWithoutId = UnionOmit<Entry, "id">;
 
 export interface Patient {
   id: string,
@@ -69,6 +69,6 @@ export interface Patient {
   entries: Entry[]
 }
 
-export type NonSensitivePatientData = Omit<Patient, 'ssn'>;
-export type NewPatient = Omit<Patient, 'id'>;
-export type PublicPatient = Omit<Patient, 'ssn' | 'entries'>;
+export type NonSensitivePatientData = Omit<Patient, "ssn">;
+export type NewPatient = Omit<Patient, "id">;
+export type PublicPatient = Omit<Patient, "ssn" | "entries">;
