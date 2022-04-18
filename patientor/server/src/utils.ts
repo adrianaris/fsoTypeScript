@@ -6,7 +6,9 @@ import {
   Discharge,
   SickLeave,
   HealthCheckRating,
-  EntryWithoutId } from "./types";
+  EntryWithoutId,
+  entryTypes
+} from "./types";
 
 const isString = (text: unknown): text is string => {
   return typeof text === "string" || text instanceof String;
@@ -44,6 +46,12 @@ const parseGender = (gender: unknown): Gender => {
   }
 
   return gender;
+};
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const isEntryType = (type: any): boolean => {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+  return Object.values(entryTypes).includes(type);
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -131,7 +139,10 @@ const isBaseEntry = (value: any): value is Entry => {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const isHospitalEntry = (value: any): value is Entry => {
   if (
-    !value.discharge || !isDischarge(value.discharge)
+    !value.discharge
+    || !isDischarge(value.discharge)
+    || !value.type
+    || !isEntryType(value.type)
   ) return false;
   return true;
 };
@@ -179,27 +190,27 @@ export const toNewEntry = (entry: any): EntryWithoutId => {
     ...(entry.diagnosisCodes && { diagnosisCodes: parseDiagCodes(entry.diagnosisCodes) })
   };
   if (!isBaseEntry(newEntry)) throw new Error("Incorrect base properties");
-  if (entry.healthCheckRating !== undefined) {
+  if (entry.type === entryTypes.Health) {
     console.log(parseHealthCheckRating(entry.healthCheckRating));
     return {
       ...newEntry,
       healthCheckRating: parseHealthCheckRating(entry.healthCheckRating),
-      type: "HealthCheck"
+      type: entry.type
     };
   }
-  if(entry.employerName) {
+  if(entry.type === entryTypes.Occupational) {
     return {
       ...newEntry,
       employerName: parseString(entry.employerName),
       ...(entry.sickLeave && { sickLeave: parseSickLeave(entry.sickLeave) }),
-      type: "OccupationalHealthcare"
+      type: entry.type
     };
   }
-  if(entry.discharge) {
+  if(entry.type === entryTypes.Hospital) {
     return {
       ...newEntry,
       discharge: parseDischarge(entry.discharge),
-      type: "Hospital"
+      type: entry.type
     };
   }
   

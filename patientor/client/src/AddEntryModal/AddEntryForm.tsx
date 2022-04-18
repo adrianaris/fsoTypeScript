@@ -41,15 +41,15 @@ const AddEntryForm = ({ onSubmit, onCancel }: Props) => {
     specialist: "",
     diagnosisCodes: [""],
     healthCheckRating: HealthCheckRating["Healthy"],
-//    discharge: {
-//      startDate: "",
-//      endDate: ""
-//    },
-//    employerName: "",
-//    sickLeave: {
-//      startDate: "",
-//      endDate: ""
-//    }
+    discharge: {
+      date: "",
+      criteria: ""
+    },
+    employerName: "",
+    sickLeave: {
+      startDate: "",
+      endDate: ""
+    }
   };
   return (
     <Formik
@@ -67,19 +67,19 @@ const AddEntryForm = ({ onSubmit, onCancel }: Props) => {
         if (!values.specialist) {
           errors.specialist = requiredError;
         }
-        if (values.type === entryTypes.Health && !values.healthCheckRating) {
+        if (values.type === entryTypes.Health && values.healthCheckRating === undefined) {
           errors.healthCheckRating = requiredError;
         }
-//        if (values.type === entryTypes.Occupational && !values.employerName) {
-//          errors.employerName = requiredError;
-//        }
-//        if (values.type === entryTypes.Hospital && !values.discharge) {
-//          errors.discharge = requiredError;
-//        }
+        if (values.type === entryTypes.Occupational && !values.employerName) {
+          errors.employerName = requiredError;
+        }
+        if (values.type === entryTypes.Hospital && !values.discharge) {
+          errors.discharge = requiredError;
+        }
         return errors;
       }}
     >
-      {({ isValid, setFieldValue, setFieldTouched, values }) => {
+      {({ dirty, isValid, setFieldValue, setFieldTouched, values }) => {
         console.log(values);
         return (
           <Form className="form ui">
@@ -114,6 +114,39 @@ const AddEntryForm = ({ onSubmit, onCancel }: Props) => {
                 options={healthCheckRatingOptions}
               />
             }
+            {values.type === entryTypes.Occupational &&
+              <>
+                <Field
+                  label="Employer Name"
+                  name="employerName"
+                  component={TextField}
+                />
+                <Field
+                  label="Sick Leave Start Date"
+                  name="sickLeave.startDate"
+                  component={TextField}
+                />
+                <Field
+                  label="Sick Leave Ent Date"
+                  name="sickLeave.endDate"
+                  component={TextField}
+                />
+              </>
+            }
+            {values.type === entryTypes.Hospital &&
+              <>
+                <Field
+                  label="Discharge Date"
+                  name="discharge.date"
+                  component={TextField}
+                />
+                <Field
+                  label="Discharge Criteria"
+                  name="discharge.criteria"
+                  component={TextField}
+                />
+              </>
+            }
             <Grid>
               <Grid item>
                 <Button
@@ -133,7 +166,7 @@ const AddEntryForm = ({ onSubmit, onCancel }: Props) => {
                   }}
                   type="submit"
                   variant="contained"
-                  disabled={!isValid}
+                  disabled={!isValid || !dirty}
                 >
                   Add
                 </Button>
