@@ -109,7 +109,7 @@ const isHealthCheckRating = (rating: any): rating is HealthCheckRating => {
 };
 
 const parseHealthCheckRating = (rating: unknown): HealthCheckRating => {
-  if (!rating || !isHealthCheckRating(rating)) {
+  if (rating === undefined || !isHealthCheckRating(rating)) {
     throw new Error("Incorrect or missing rating");
   }
   return rating;
@@ -179,7 +179,8 @@ export const toNewEntry = (entry: any): EntryWithoutId => {
     ...(entry.diagnosisCodes && { diagnosisCodes: parseDiagCodes(entry.diagnosisCodes) })
   };
   if (!isBaseEntry(newEntry)) throw new Error("Incorrect base properties");
-  if (entry.healthCheckRating) {
+  if (entry.healthCheckRating !== undefined) {
+    console.log(parseHealthCheckRating(entry.healthCheckRating));
     return {
       ...newEntry,
       healthCheckRating: parseHealthCheckRating(entry.healthCheckRating),

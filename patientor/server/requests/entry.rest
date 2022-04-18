@@ -6,5 +6,5 @@ Content-Type: application/json
     "date": "2015-02-02",
     "specialist": "Dr Serbanescu",
     "diagnosisCodes": ["code"],
-    "healthCheckRating": "Healthy"
+    "healthCheckRating": 0
 }

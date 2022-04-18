@@ -10,8 +10,7 @@ import EntryComponent from "../components/Entry";
 
 const PatientPage = () => {
   const { id } = useParams<{ id: string }>();
-  const [{ patients, diagnoses }, dispatch] = useStateValue();
-  console.log(diagnoses);
+  const [{ patients }, dispatch] = useStateValue();
   if (id && typeof id === "string" && patients[id]) {
     let patient: Patient = patients[id];
     if (patient["ssn"] === undefined) {
@@ -28,6 +27,7 @@ const PatientPage = () => {
       };
       void fetchPatient();
     }
+    console.log(patient);
     return (
       <div>
         <h3>
