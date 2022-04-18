@@ -2,7 +2,7 @@ import { NewPatient } from "./types";
 import {
   Gender,
   Entry,
-  Diagnose,
+//  Diagnose,
   Discharge,
   SickLeave,
   HealthCheckRating,
@@ -47,21 +47,29 @@ const parseGender = (gender: unknown): Gender => {
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const isDiagnose = (diag: any): diag is Diagnose => {
-  if (!diag.code || !diag.name || !isString(diag.code) || !isString(diag.name)) {
-    return false;
-  }
-  if (diag.latin) {
-    if (!isString(diag.latin)) return false;
-  }
-  return true;
-};
+// const isDiagnose = (diag: any): diag is Diagnose => {
+//   if (!diag.code || !diag.name || !isString(diag.code) || !isString(diag.name)) {
+//     return false;
+//   }
+//   if (diag.latin) {
+//     if (!isString(diag.latin)) return false;
+//   }
+//   return true;
+// };
+// 
+// const parseDiag = (diag: unknown): Diagnose => {
+//   if (!diag || !isDiagnose(diag)) {
+//     throw new Error("Incorrect or missing Diagnosis");
+//   }
+//   return diag;
+// };
 
-const parseDiag = (diag: unknown): Diagnose => {
-  if (!diag || !isDiagnose(diag)) {
-    throw new Error("Incorrect or missing Diagnosis");
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const parseDiagCodes = (array: any): string[] => {
+  if (!array || array.map((s: unknown) => isString(s)).includes(false)) {
+    throw new Error("Incorrect or missing diagnosis code");
   }
-  return diag;
+  return array;
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -115,7 +123,7 @@ const isBaseEntry = (value: any): value is Entry => {
     || !isString(value.specialist)
   ) return false;
   if (value.diagnosisCodes) {
-    if (value.diagnosisCodes.map((d: string): boolean => isDiagnose(d)).includes(false)) return false;
+    if (value.diagnosisCodes.map((d: string): boolean => isString(d)).includes(false)) return false;
   }
   return true;
 };
@@ -168,7 +176,7 @@ export const toNewEntry = (entry: any): EntryWithoutId => {
     description: parseString(entry.description),
     date: parseDate(entry.date),
     specialist: parseString(entry.specialist),
-    ...(entry.diagnosisCodes && { diagnosisCodes: parseDiag(entry.diagnosisCodes) })
+    ...(entry.diagnosisCodes && { diagnosisCodes: parseDiagCodes(entry.diagnosisCodes) })
   };
   if (!isBaseEntry(newEntry)) throw new Error("Incorrect base properties");
   if (entry.healthCheckRating) {
