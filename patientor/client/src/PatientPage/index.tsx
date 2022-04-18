@@ -27,7 +27,6 @@ const PatientPage = () => {
       };
       void fetchPatient();
     }
-    console.log(patient);
     return (
       <div>
         <h3>
@@ -46,7 +45,7 @@ const PatientPage = () => {
       </div>
     );
   }
-  return <h3>No patient with that id exists</h3>;
+  return <h3>No patient with id {id} exists!!!</h3>;
 };
 
 export default PatientPage;
