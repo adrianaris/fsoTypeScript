@@ -3,7 +3,14 @@ import { useStateValue } from "../state";
 import { Formik, Form, Field } from "formik";
 import { Grid, Button } from "@material-ui/core";
 import { UnionOmit, Entry, HealthCheckRating, entryTypes } from "../types";
-import { TextField, SelectField, EntryOption } from "./FormField";
+import {
+  TextField,
+  EntryTypeSelectField,
+  HealthCheckRatingSelectField,
+  EntryOption,
+  DiagnosisSelection,
+  HealthCheckRatingOption
+} from "./FormField";
 
 export type EntryFormValues = UnionOmit<Entry, "id" | "type">;
 
@@ -18,6 +25,13 @@ const typeOptions: EntryOption[] = [
   { value: entryTypes.Hospital, label: "Hospital" },
 ];
 
+const healthCheckRatingOptions: HealthCheckRatingOption[] = [
+  { value: HealthCheckRating['Healthy'], label: "Healthy" },
+  { value: HealthCheckRating["LowRisk"], label: "LowRisk" },
+  { value: HealthCheckRating["HighRisk"], label: "HighRisk" },
+  { value: HealthCheckRating["CriticalRisk"], label: "CriticalRisk" },
+];
+
 const AddEntryForm = ({ onSubmit, onCancel }: Props) => {
   const [{ diagnoses }] = useStateValue();
   const initialValues = {
@@ -27,15 +41,15 @@ const AddEntryForm = ({ onSubmit, onCancel }: Props) => {
     specialist: "",
     diagnosisCodes: [""],
     healthCheckRating: HealthCheckRating["Healthy"],
-    discharge: {
-      startDate: "",
-      endDate: ""
-    },
-    employerName: "",
-    sickLeave: {
-      startDate: "",
-      endDate: ""
-    }
+//    discharge: {
+//      startDate: "",
+//      endDate: ""
+//    },
+//    employerName: "",
+//    sickLeave: {
+//      startDate: "",
+//      endDate: ""
+//    }
   };
   return (
     <Formik
@@ -56,26 +70,76 @@ const AddEntryForm = ({ onSubmit, onCancel }: Props) => {
         if (values.type === entryTypes.Health && !values.healthCheckRating) {
           errors.healthCheckRating = requiredError;
         }
-        if (values.type === entryTypes.Occupational && !values.employerName) {
-          errors.employerName = requiredError;
-        }
-        if (values.type === entryTypes.Hospital && !values.discharge) {
-          errors.discharge = requiredError;
-        }
+//        if (values.type === entryTypes.Occupational && !values.employerName) {
+//          errors.employerName = requiredError;
+//        }
+//        if (values.type === entryTypes.Hospital && !values.discharge) {
+//          errors.discharge = requiredError;
+//        }
         return errors;
       }}
     >
-      {({ isValid, dirty, setFieldValue, setFieldTouched }) => {
-        const basePartOfForm = <>
+      {({ isValid, setFieldValue, setFieldTouched, values }) => {
+        console.log(values);
+        return (
+          <Form className="form ui">
+            <EntryTypeSelectField label="EntryType" name="type" options={typeOptions} />
             <Field
               label="Description"
               placeholder="Description"
               name="description"
               component={TextField}
             />
-          </>
-        return (
-          <Form className="form ui"></Form>
+            <Field
+              label="Date"
+              placeholder="YYYY-MM-DD"
+              name="date"
+              component={TextField}
+            />
+            <Field
+              label="Specialist"
+              placeholder="Specialist"
+              name="specialist"
+              component={TextField}
+            />
+            <DiagnosisSelection
+              setFieldValue={setFieldValue}
+              setFieldTouched={setFieldTouched}
+              diagnoses={Object.values(diagnoses)}
+            />
+            {values.type === entryTypes.Health &&
+              <HealthCheckRatingSelectField
+                label="HealthCheck"
+                name="healthCheckRating"
+                options={healthCheckRatingOptions}
+              />
+            }
+            <Grid>
+              <Grid item>
+                <Button
+                  color="secondary"
+                  variant="contained"
+                  style={{ float: "left" }}
+                  type="button"
+                  onClick={onCancel}
+                >
+                  Cancel
+                </Button>
+              </Grid>
+              <Grid item>
+                <Button
+                  style={{
+                    float: "right",
+                  }}
+                  type="submit"
+                  variant="contained"
+                  disabled={!isValid}
+                >
+                  Add
+                </Button>
+              </Grid>
+            </Grid>
+          </Form>
         );
       }}
     </Formik>

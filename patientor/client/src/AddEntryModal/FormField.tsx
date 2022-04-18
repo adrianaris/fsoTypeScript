@@ -9,7 +9,7 @@ import {
   InputLabel
 } from "@material-ui/core";
 import Input from "@material-ui/core/Input";
-import { EntryWithoutId, entryTypes, Diagnosis } from "../types";
+import { entryTypes, Diagnosis, HealthCheckRating } from "../types";
 
 interface TextProps extends FieldProps {
   label: string;
@@ -29,20 +29,21 @@ export const TextField = ({ field, label, placeholder }: TextProps) => (
   </div>
 );
 
-export type EntryOption = {
-  value: entryTypes;
+export type HealthCheckRatingOption = {
+  value: HealthCheckRating;
   label: string;
 };
 
-type SelectFieldProps = {
+type HealthCheckRatingFieldProps = {
   name: string;
   label: string;
-  options: EntryOption[];
+  options: HealthCheckRatingOption[];
 };
 
 const FormikSelect = ({ field, ...props }: FieldProps) => <Select {...field} {...props} />;
 
-export const SelectField = ({ name, label, options }: SelectFieldProps) => (
+
+export const HealthCheckRatingSelectField = ({ name, label, options }: HealthCheckRatingFieldProps) => (
   <>
     <InputLabel>{label}</InputLabel>
     <Field
@@ -119,7 +120,7 @@ export const DiagnosisSelection = ({
 
   return (
     <FormControl style={{ width: 552, marginBottom: "30px" }}>
-      <InputLabel>Diagnoses</InputLabel>
+      <InputLabel>{selectedDiagnoses}</InputLabel>
       <Select multiple value={selectedDiagnoses} onChange={(e) => onChange(e.target.value as string[])} input={<Input />}>
         {stateOptions.map((option) => (
           <MenuItem key={option.key} value={option.value}>
@@ -131,3 +132,34 @@ export const DiagnosisSelection = ({
     </FormControl>
   );
 };
+
+export type EntryOption = {
+  value: entryTypes;
+  label: string;
+};
+
+
+type EntrySelectFieldProps = {
+  name: string;
+  label: string;
+  options: EntryOption[];
+};
+
+export const EntryTypeSelectField = ({ name, label, options }: EntrySelectFieldProps) => (
+  <>
+    <InputLabel>{label}</InputLabel>
+    <Field
+      fullWidth
+      style={{ marginBottom: "0.5em" }}
+      label={label}
+      component={FormikSelect}
+      name={name}
+    >
+      {options.map((option) => (
+        <MenuItem key={option.value} value={option.value}>
+          {option.label || option.value}
+        </MenuItem>
+      ))}
+    </Field>
+  </>
+);
